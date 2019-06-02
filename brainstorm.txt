@@ -1,0 +1,23 @@
+plot: "You are a high-ranking CIA official participating in testing of a top-secret self-transmitting device or STD for short. Your wife, Christa, is the lead developer of this technology and is also the first human test subject of STD type A. She sticks the syringe filled with nanotech into her arm. Everything looked fine, but that's when the possession began. Satan himself has turned Christa into his host. He breaks out of the lab, leaving casualties behind. As her husband, your team was assigned to stop Christa, at all costs."
+
+game plan: devil releases 3 branches of his demon army; barbarians, scorchers, and artillery. Player fights/parkours through the ranks to make their way to the boss. Boss talks a bit during and after the fight revealing clues. repeat twice more. all 3 bosses clues reveals the devil's plan to start a world war in North Korea. player fights the devil but begins losing, but thankfully God brings the fight up to heaven, giving player buffed stats. player beats the devil out of christa and earns respect from exorcists accross the globe. christa almost dies but God heals her before sending player and christa back home.
+
+character: cia agent
+options to give player different attributes/abilites at a price (i.g. enhanced mobility for health, extra strength for speed, etc)
+jesus easter egg in heaven level
+
+levels: heaven, desert, grassland, ravine
+items: TBD
+
+common enemies: barbarians, scorchers, artillery
+mid-tier enemies: enhanced common enemies, possessed casper (ghost)
+bosses: Scorcher Boss, Artillery Boss, Barbarian Boss
+final boss: christa/devil
+
+sounds: menu, punch, throw, jump, explosions,
+death/gameover
+music: menu boss, battle, story*, standard music
+
+assets: characters, enemies/bosses, backgrounds, platform (2 or 3 different sizes), items
+
+(* means various versions may be necessary)

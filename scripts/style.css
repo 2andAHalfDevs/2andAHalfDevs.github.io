@@ -1,0 +1,98 @@
+/* @Two&HalfDevs */
+
+/*
+  Previous update: May 31, 2019
+  Last update: June 1, 2019
+*/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  color: white;
+}
+
+body {
+  /* height: 100%; */
+  width: 100%
+}
+
+a {
+  color: red;
+}
+
+#gameFrame {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.wip {
+  color: red;
+}
+
+#menuWrapper {
+  position: fixed;
+  top: 2rem;
+  width: fit-content;
+  margin-left: .8rem;
+  z-index: 11;
+}
+
+#menuButton {
+  font-weight: bold;
+  font-size: 2rem;
+  cursor: pointer;
+  color: red;
+}
+
+#menu {
+  list-style: none;
+  margin-left: 1rem;
+}
+
+.menuItem {
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#introHeader {
+  position: relative;
+  margin-top: 4rem;
+  font-weight: normal;
+  width: fit-content;
+}
+
+#studioName {
+  color: red;
+  font-weight: bold;
+}
+
+.fraction {
+  font-size: 1rem;
+  color: red;
+}
+
+#devs {
+  font-weight: bold;
+  font-size: 1.15rem;
+  text-align: justify;
+  color: white;
+}
+
+.lastName {
+  color: red;
+}

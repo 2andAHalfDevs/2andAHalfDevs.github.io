@@ -1,0 +1,164 @@
+<!-- @Two&HalfDevs -->
+
+<!--
+  Previous update: June 1, 2019
+  Last updated: June 2, 2019
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
+    <link rel="manifest" href="./icons/site.webmanifest">
+    <link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#000000">
+    <link rel="stylesheet" href="./scripts/style.css" />
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="user-scalable=no,width=device-width" />
+    <meta property="og:title" content="2&amp;aHalf Devs indie studio" />
+    <meta property="og:description" content="Will have some games out soon!" />
+    <title name="title">Welcome to Two&amp; a Half Devs!</title>
+    <script type="text/javascript" src="./scripts/fullscreen.js"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+        // Project object with methods for opening and closing projects
+        var Project = {
+
+          // At the moment, this method only shows the canvas and adds a custom class for the project to the canvas
+          open: function(id = "no") {
+            let frame = document.createElement("iframe");
+            let fullscreenWrap = document.getElementById('fullscreenWrapper');
+            frame.setAttribute("id", "gameFrame");
+            frame.setAttribute("src", "./games/" + id + "/" + id + ".html");
+            fullscreenWrap.appendChild(frame);
+            menu.classList.add('hidden');
+            menuOpened = false;
+            fullscreen.request(fullscreenWrap);
+            window.focus(document.getElementById("gameFrame"));
+          },
+
+          // At the moment, this method only hides the canvas and removes the custom class for the project to the canvas
+          close: function(id = "no") {
+            let frame = document.getElementById('gameFrame');
+            let fullscreenWrap = document.getElementById('fullscreenWrapper');
+            fullscreen.exit();
+            frame.outerHTML = "";
+          }
+        };
+
+        // Stores whether or not menu is opened, default is false
+        var menuOpened = false;
+
+        // Listens for click on the menu button
+        document.getElementById("menuButton").addEventListener('click', function() {
+
+          let menu = document.getElementById('menu');
+
+          // Hides or shows the menu based on if menu is open
+          if(menuOpened) {
+            menu.classList.add('hidden');
+            menuOpened = false;
+          } else {
+            menu.classList.remove('hidden');
+            menuOpened = true;
+          }
+        }, false);
+
+        // Stores id of active project if any, default is false or no active project
+        var projectId = false;
+
+        // Array containing menu items for quick additions
+        var menuItems = [{
+          name: "Test Project",
+          id: "testGame",
+          wip: true,
+          game: true
+        }, {
+          name: "Example Game",
+          id: "exampleGame",
+          wip: false,
+          game: true
+        }]
+
+        // Creates menu items with listeners
+        function generateMenu() {
+
+          // Creates all menu items
+          for (let i = 0; i < menuItems.length; i++) {
+            let list = document.getElementById('menu');
+            var link = menuItems[i].game ? ["", ""] : ["<a href='" + menuItems[i].link + "' target='_blank' >", "</a>"]
+            // If wip is true in the menu item, add in the wip signal into the project name
+            let projectName = menuItems[i].wip ? menuItems[i].name + "(<span class='wip'>WIP</span>)" : menuItems[i].name;
+
+            // Adds new list element to menu with custom id and name
+            list.innerHTML += "<li style='cursor: pointer;' id='" + menuItems[i].id + "'class='menuItem'>" + link[0] + projectName + link[1] + "</li>";
+          }
+
+          /*
+           * All you nerds are probably wondering "why's there 2 of the exact same for loops doing different things?"
+           * well first, thanks for reading my code
+           * Second, Having everything in one loop only gives the script enough time to attach one listener instead of all of them
+           */
+
+          // Creates listeners with logic for every game item
+          for(let i = 0; i < menuItems.length; i++) {
+
+            if(menuItems[i].game) {
+
+              // Attaches click listener to current game item
+              document.getElementById(menuItems[i].id).addEventListener('click', function() {
+
+                // If there's no active project, open the project and set the active project to this id
+                if(projectId == false) {
+                  projectId = menuItems[i].id;
+                  Project.open(projectId);
+
+                // If the active project isn't this one, close this project and open the new one and set new active project
+                } else if(typeof projectId == 'string' && projectId !== menuItems[i].id) {
+                  Project.close(projectId);
+                  projectId = menuItems[i].id;
+                  Project.open(projectId);
+
+                // If the active project is this one, close it and reset active project
+                } else {
+                  Project.close(projectId);
+                  projectId = false;
+                }
+              }, false);
+            }
+
+          }
+        }
+        generateMenu();
+      };
+    </script>
+  </head>
+  <body>
+    <div id="fullscreenWrapper" style="width: fit-content;">
+      <div id="menuWrapper">
+        <span id="menuButton">Menu</span>
+        <ul id="menu" class="hidden">
+
+        </ul>
+      </div>
+    </div>
+    <center>
+        <h1 id="introHeader">
+          Welcome to <span id="studioName">2<sup class="fraction">1</sup>/<sub class="fraction">2</sub> Devs</span>
+        </h1>
+        <div style="margin-top: 2rem; width: fit-content;">
+            <h2 style="color: red;">Team comprised of:</h2>
+            <ul id="devs">
+              <li>Joseph <span class="lastName">Ladino</span> (Lead Developer)</li>
+              <li>Allan <span class="lastName">Langford</span> (Lead Audio)</li>
+              <li>Amy <span class="lastName">Clarkson</span> (Lead Screenwriter)</li>
+              <li>Sophie <span class="lastName">Anderson</span> (Lead Character Design)</li>
+              <li>Daniella <span class="lastName">(?)</span> (Lead Background Design)</li>
+              <li>Callum <span class="lastName">Gamble</span> (Assistant Screenwriter)</li>
+            </ul>
+        </div>
+    </center>
+  </body>
+</html>
