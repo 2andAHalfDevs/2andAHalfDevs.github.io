@@ -36,7 +36,7 @@
             menu.classList.add('hidden');
             menuOpened = false;
             fullscreen.request(fullscreenWrap);
-            window.focus(document.getElementById("gameFrame"));
+            document.getElementById("gameFrame").focus();
           },
 
           // At the moment, this method only hides the canvas and removes the custom class for the project to the canvas
