@@ -9,30 +9,40 @@ const Controller = function() {
     var pressed = (type == "keydown") ? true : false;
     switch (keyCode) {
       case 37:
+      case 65:
         this.left.getInput(pressed);
         break;
       case 38:
+      case 87:
+      case 32:
         this.up.getInput(pressed);
         break;
       case 39:
+      case 68:
         this.right.getInput(pressed);
         break;
       case 40:
+      case 83:
         this.down.getInput(pressed);
     }
     var keyUp = (type == "keyup") ? true : false;
     if(keyUp) {
       switch (keyCode) {
         case 37:
+        case 65:
           this.left.buttonUp(keyUp);
           break;
         case 38:
+        case 87:
+        case 32:
           this.up.buttonUp(keyUp);
           break;
         case 39:
+        case 68:
           this.right.buttonUp(keyUp);
           break;
         case 40:
+        case 83:
           this.down.buttonUp(keyUp);
       }
     }
