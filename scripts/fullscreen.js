@@ -9,9 +9,9 @@
 (function() {
 
 })();
-
+*/
 var fullscreen = {
-  using: "", */
+  using: "", 
 
   enabled: function() {
     if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
