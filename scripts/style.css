@@ -4,6 +4,10 @@
   Previous update: May 31, 2019
   Last update: June 1, 2019
 */
+@font-face {
+  font-family: 'Indie Flower';
+  src: url('./IndieFlower.ttf');
+}
 
 * {
   box-sizing: border-box;
@@ -94,6 +98,53 @@ a {
   color: white;
 }
 
-.lastName {
+#worstBoy {
+  color: cyan;
+  font-size: 1.2rem;
+}
+
+#worstBoyLN {
+  color: blue;
+}
+
+#bestGirl {
+  color: orchid;
+  font-size: 1.2rem;
+  font-family: 'Indie Flower';
+}
+
+#bestGirlLN {
+  color: deepPink;
+}
+
+#allan {
   color: red;
+}
+
+#allanLN {
+  color: maroon;
+}
+
+#dani {
+  color: MediumPurple;
+}
+
+#daniLN {
+  color: RebeccaPurple;
+}
+
+#sophie {
+  color: Lime;
+}
+
+#sophieLN {
+  color: ForestGreen;
+}
+
+#callum {
+  color: OrangeRed;
+}
+
+#callumLN {
+  color: chocolate;
 }
