@@ -1,7 +1,7 @@
 # Thank you Frank Poth
   The example code belongs to [Frank Poth](https://github.com/frankarendpoth/frankarendpoth.github.io).
 I'm learning as I go but for right now a lot of my code (i.e. collision boxes) are heavily based off his tutorials/source code.
-His youtube videos and in-code comments are amazing, give him a look.
+His PoP youtube videos and in-code comments are amazing, definitely give him a look.
   
 ## Studio's Site
   The main site for the studio (designed and programmed by [@Joseph-Ladino](https://github.com/Joseph-Ladino)). Includes a project switch and a lifetime's worth of sleep deprivation.

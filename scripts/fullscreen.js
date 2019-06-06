@@ -22,9 +22,15 @@ window.inFullscreen = false;
     window.inFullscreen = window.inFullscreen ? false : true;
   }, false);
 })();
+<<<<<<< HEAD
 
 var Fullscreen = function() {
   this.using = "";
+=======
+*/
+var fullscreen = {
+  using: "", 
+>>>>>>> e2dc4b07c65f5687d68e9af502a7bc1e3a40c8ad
 
   this.enabled = function() {
     if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
