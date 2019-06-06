@@ -4,24 +4,37 @@
   Previous update: June 2, 2019
   Last Updated: June 4, 2019
 */
-
-/* this'll be useful whenever I finish updating this script
+window.inFullscreen = false;
 (function() {
-
+  document.addEventListener("fullscreenchange", function() {
+    window.inFullscreen = window.inFullscreen ? false : true;
+  }, false);
+  
+  document.addEventListener("webkitfullscreenchange", function() {
+    window.inFullscreen = window.inFullscreen ? false : true;
+  }, false);
+  
+  document.addEventListener("mozfullscreenchange", function() {
+    window.inFullscreen = window.inFullscreen ? false : true;
+  }, false);
+  
+  document.addEventListener("msfullscreenchange", function() {
+    window.inFullscreen = window.inFullscreen ? false : true;
+  }, false);
 })();
 
-var fullscreen = {
-  using: "", */
+var Fullscreen = function() {
+  this.using = "";
 
-  enabled: function() {
+  this.enabled = function() {
     if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
       return true;
     } else {
       return false;
     }
-  },
+  };
 
-  request: function(element) {
+  this.request = function(element) {
     if(element) {
       this.element = element;
       if(this.addedListener < 1) {
@@ -56,9 +69,9 @@ var fullscreen = {
     } else {
       return "Element not specified.";
     }
-  },
+  };
 
-  exit: function() {
+  this.exit = function() {
     if(document.exitFullscreen) {
       document.exitFullscreen();
     } else if(document.webkitExitFullScreen) {
@@ -68,19 +81,6 @@ var fullscreen = {
     } else if(document.msExitFullscreen) {
       document.msExitFullscreen();
     }
-  },
+  };
 
-  active: function() {
-    let using = this.using;
-    if(using === "") {
-      console.log(document.fullscreenElement? false : true);
-      return document.fullscreenElement? false : true;
-    } else if(using == "webkit") {
-      return document.webkitIsFullScreen? false : true;
-    } else if(using == "moz") {
-      return document.mozFullScreen? false : true;
-    } else if(using == "ms") {
-      return document.msFullscreenElement? false : true;
-    }
-  }
 };

@@ -22,6 +22,8 @@
     <title name="title">Welcome to Two&amp; a Half Devs!</title>
     <script type="text/javascript" src="./scripts/fullscreen.js"></script>
     <script type="text/javascript">
+    "use strict";
+    var fullscreen = new Fullscreen();
       window.onload = function() {
         // Project object with methods for opening and closing projects
         var Project = {
@@ -43,7 +45,9 @@
           close: function(id = "no") {
             let frame = document.getElementById('gameFrame');
             let fullscreenWrap = document.getElementById('fullscreenWrapper');
-            fullscreen.exit();
+            if(window.inFullscreen) {
+              fullscreen.exit();
+            }
             frame.outerHTML = "";
           }
         };
@@ -153,7 +157,7 @@
             <ul id="devs">
               <li><span id="bestGirl">Amy <span id="bestGirlLN">Clarkson</span></span> (Lead Screenwriter)</li>
               <li><span id="allan">Allan <span id="allanLN">Langford</span></span> (Lead Audio)</li>
-              <li><span id="worstBoy">Joseph <span id="worstBoyLN">Ladino</span></span> (Lead Developer)</li>
+              <li><span id="worstBoy">Joey <span id="worstBoyLN">Ladino</span></span> (Lead Developer)</li>
               <li><span id="sophie">Sophie <span id="sophieLN">Anderson</span></span> (Lead Character Design)</li>
               <li><span id="dani">Daniella <span id="daniLN">Popejoy</span></span> (Lead Background Design)</li>
               <li><span id="callum">Callum <span id="callumLN">Gamble</span></span> (Assistant Screenwriter)</li>

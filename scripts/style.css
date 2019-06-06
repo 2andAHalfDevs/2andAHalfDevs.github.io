@@ -4,6 +4,7 @@
   Previous update: May 31, 2019
   Last update: June 1, 2019
 */
+
 @font-face {
   font-family: 'Indie Flower';
   src: url('./IndieFlower.ttf');
@@ -23,7 +24,6 @@ html {
 }
 
 body {
-  /* height: 100%; */
   width: 100%
 }
 
@@ -100,7 +100,6 @@ a {
 
 #worstBoy {
   color: cyan;
-  font-size: 1.2rem;
 }
 
 #worstBoyLN {
