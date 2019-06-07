@@ -2,8 +2,8 @@ window.onload = function() {
 
   var keyEvent = function(event) {
     //event.preventDefault();
-    controller.keyEvent(event.type, event.keyCode)
-  }
+    controller.keyEvent(event.type, event.keyCode);
+  };
 
   var resize = function(event) {
     display.resize(document.documentElement.clientWidth - 5, document.documentElement.clientHeight - 5, game.world.height / game.world.width);
@@ -32,10 +32,10 @@ window.onload = function() {
 
     if(controller.down.active) {
       game.world.player.duck();
-      controller.down.active = false
+      controller.down.active = false;
     } else if(controller.down.keyUp) {
       game.world.player.duck(controller.down.keyUp);
-    };
+    }
     game.update();
   };
 
@@ -47,8 +47,20 @@ window.onload = function() {
   display.buffer.canvas.height = game.world.height;
   display.buffer.canvas.width = game.world.width;
 
+  // gamepad stuff
+
+  var attachGamepad = function() {
+    alert("Gamepad connected");
+  };
+
+  var removeGamepad = function() {
+    alert("Gamepad disconnected")
+  };
+
   window.addEventListener("resize", resize);
   window.addEventListener("keydown", keyEvent);
+  window.addEventListener("gamepadconnected", attachGamepad);
+  window.addEventListener("gamepaddisconnected", removeGamepad);
   window.addEventListener("keyup", keyEvent);
 
   display.tile_sheet.image.addEventListener("load", function(event) {
@@ -61,8 +73,8 @@ window.onload = function() {
   // Audio Stuff
 
   var player = document.getElementById("audioPlayer");
-  player.src = "./songs/desert_theme.mp3"
-  player.play();
+  player.src = "./songs/desert_theme.mp3";
+  setTimeout(function() { player.play(); }, 1000);
   function loop() {
     if(player.currentTime >= player.duration) {
       player.pause();
