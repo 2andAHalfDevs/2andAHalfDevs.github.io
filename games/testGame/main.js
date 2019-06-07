@@ -56,5 +56,19 @@ window.onload = function() {
     engine.start();
   }, {once:true});
 
-  display.tile_sheet.image.src = "./testGame.png";
+  display.tile_sheet.image.src = "./maps/desert3noslants.png";
+
+  // Audio Stuff
+
+  var player = document.getElementById("audioPlayer");
+  player.src = "./songs/desert_theme.mp3"
+  player.play();
+  function loop() {
+    if(player.currentTime >= player.duration) {
+      player.pause();
+      player.currentTime = 0;
+      player.play();
+    }
+  }
+  setInterval(loop, 1000);
 };

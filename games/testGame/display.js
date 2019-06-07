@@ -2,7 +2,7 @@ const Display = function(canvas) {
   this.buffer = document.createElement("canvas").getContext("2d");
   this.context = canvas.getContext("2d");
 
-  this.tile_sheet = new Display.TileSheet(16, 16);
+  this.tile_sheet = new Display.TileSheet(25, 25);
   this.drawMap = function(map, columns) {
     for(let index = map.length - 1; index > -1; -- index) {
       let val = map[index] - 1;
@@ -11,7 +11,7 @@ const Display = function(canvas) {
 
       let level_x = (index % columns) * this.tile_sheet.tile_size;
       let level_y = Math.floor(index / columns) * this.tile_sheet.tile_size;
-
+      
       this.buffer.drawImage(this.tile_sheet.image, ts_x, ts_y, this.tile_sheet.tile_size, this.tile_sheet.tile_size, level_x, level_y, this.tile_sheet.tile_size, this.tile_sheet.tile_size);
     }
   };
@@ -29,6 +29,7 @@ const Display = function(canvas) {
       this.context.canvas.height = height;
       this.context.canvas.width = height / ratio;
     }
+    //this.buffer.imageSmoothingEnabled = false;
     this.context.imageSmoothingEnabled = false;
   };
 };
