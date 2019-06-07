@@ -10,6 +10,14 @@
   src: url('./IndieFlower.ttf');
 }
 
+/* latin-ext */
+@font-face {
+  font-family: 'Clicker Script';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./ClickerScript-Regular.ttf');
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -107,7 +115,7 @@ a {
 }
 
 #bestGirl {
-  color: orchid;
+  color: fuchsia;
   font-size: 1.2rem;
   font-family: 'Indie Flower';
 }
@@ -133,11 +141,13 @@ a {
 }
 
 #sophie {
-  color: red;
+  font-family: 'Clicker Script';
+  color: orchid;
+  font-size: 1.5rem;
 }
 
 #sophieLN {
-  color: maroon;
+  color: DarkViolet;
 }
 
 #callum {
