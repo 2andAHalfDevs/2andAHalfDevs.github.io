@@ -44,7 +44,7 @@ Game.World.prototype = {
     if(object.getLeft() < 0 ) { object.setLeft(0); object.velocity_x = 0; }
     else if(object.getRight() > this.width ) { object.setRight(this.width); object.velocity_x = 0; }
     if(object.getTop() < 0 ) { object.setTop(0); object.velocity_y = 0; }
-    else if(object.getBottom() > this.height) { object.setBottom(this.height); object.velocity_y = 0; object.jumping = false; }
+    else if(object.getBottom() > this.height) { object.setBottom(this.height); object.velocity_y = 0; object.jumping = 0; }
 
     var bottom, left, right, top, value;
 
@@ -156,7 +156,7 @@ Game.World.Collider.prototype = {
     if (object.getBottom() > tile_top && object.getOldBottom() <= tile_top) {
       object.setBottom(tile_top - 0.01);
       object.velocity_y = 0;
-      object.jumping    = false;
+      object.jumping    = 0;
       return true;
     } return false;
   }
@@ -205,7 +205,7 @@ Game.World.Object.prototype = {
 Game.World.Player = function(x, y) {
   Game.World.Object.call(this, 48, 0, 20, 20);
   this.color = "#ff0000";
-  this.jumping = true;
+  this.jumping = 1;
   this.ducking = false;
   this.velocity_x = 0;
   this.velocity_y = 0;
@@ -215,10 +215,10 @@ Game.World.Player.prototype = {
   constructor: Game.Player,
 
   jump: function() {
-    if(!this.jumping) {
-
-      this.jumping = true;
-      this.velocity_y -= 20;
+    if(this.jumping < 2) {
+      this.jumping += 1;
+      if(this.jumping === 1) this.velocity_y -= 20;
+      if(this.jumping == 2 ) this.velocity_y -= 24;
     }
   },
 

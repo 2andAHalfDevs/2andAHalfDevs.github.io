@@ -1,8 +1,8 @@
 <!-- @Two&HalfDevs -->
 
 <!--
-  Previous update: June 1, 2019
-  Last updated: June 2, 2019
+  Previous update: June 2, 2019
+  Last updated: June 9, 2019
 -->
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
     <link rel="manifest" href="./icons/site.webmanifest">
     <link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#000000">
-    <link rel="stylesheet" href="./scripts/style.css" />
+    <link id="styleSheet" rel="stylesheet" href="./scripts/style.css" />
     <meta name="msapplication-TileColor" content="#000000">
     <meta name="theme-color" content="#ffffff">
     <meta name="viewport" content="user-scalable=no,width=device-width" />
@@ -23,12 +23,22 @@
     <script type="text/javascript" src="./scripts/fullscreen.js"></script>
     <script type="text/javascript">
     "use strict";
+    // Resizes document for good experience on multiple devices
+    function relocate() {
+      let docSize = [document.documentElement.clientWidth, document.documentElement.clientHeight];
+      let styleSheet = document.getElementById("styleSheet");
+      if(docSize[0] > 750 && docSize[0] < 1080 && styleSheet.href !== window.location.href + "scripts/style.css") {styleSheet.href = './scripts/style.css';}
+      else if(docSize[0] <= 750  && styleSheet.href !== window.location.href + 'scripts/small.css') {styleSheet.href = "./scripts/small.css";}
+      // else if(docSize[0] >= 1080 && styleSheet.href !== window.location.href + 'scripts/large.css') {styleSheet.href = "./scripts/large.css";}
+    }
+    relocate();
+    setInterval(relocate, 1000);
     var fullscreen = new Fullscreen();
       window.onload = function() {
         // Project object with methods for opening and closing projects
         var Project = {
 
-          // At the moment, this method only shows the canvas and adds a custom class for the project to the canvas
+          // Opens project in fullscreen and hides menu
           open: function(id = "no") {
             let frame = document.createElement("iframe");
             let fullscreenWrap = document.getElementById('fullscreenWrapper');
@@ -36,12 +46,13 @@
             frame.setAttribute("src", "./games/" + id + "/" + id + ".html");
             fullscreenWrap.appendChild(frame);
             menu.classList.add('hidden');
+            document.getElementById("menuButton").setAttribute("style", "background-color: transparent");
             menuOpened = false;
             fullscreen.request(fullscreenWrap);
             document.getElementById("gameFrame").focus();
           },
 
-          // At the moment, this method only hides the canvas and removes the custom class for the project to the canvas
+          // Closes project and (if needed) exits fullscreen
           close: function(id = "no") {
             let frame = document.getElementById('gameFrame');
             let fullscreenWrap = document.getElementById('fullscreenWrapper');
@@ -103,7 +114,7 @@
           /*
            * All you nerds are probably wondering "why's there 2 of the exact same for loops doing different things?"
            * well first, thanks for reading my code
-           * Second, Having everything in one loop only gives the script enough time to attach one listener instead of all of them
+           * Second, Having everything in one loop only gives the script enough time to attach one listener
            */
 
           // Creates listeners with logic for every game item
@@ -119,7 +130,7 @@
                   projectId = menuItems[i].id;
                   Project.open(projectId);
 
-                // If the active project isn't this one, close this project and open the new one and set new active project
+                // If the active project isn't this one, close this project, open the new one and set new active project
                 } else if(typeof projectId == 'string' && projectId !== menuItems[i].id) {
                   Project.close(projectId);
                   projectId = menuItems[i].id;
@@ -132,7 +143,6 @@
                 }
               }, false);
             }
-
           }
         }
         generateMenu();
@@ -140,7 +150,7 @@
     </script>
   </head>
   <body>
-    <div id="fullscreenWrapper" style="width: fit-content;">
+    <div id="fullscreenWrapper">
       <div id="menuWrapper">
         <span id="menuButton">Menu</span>
         <ul id="menu" class="hidden">
@@ -149,20 +159,31 @@
       </div>
     </div>
     <center>
-        <h1 id="introHeader">
+      <div id="vCenter">
+        <span id="introHeader">
           Welcome to <span id="studioName">2<sup class="fraction">1</sup>/<sub class="fraction">2</sub> Devs</span>
-        </h1>
-        <div style="margin-top: 2rem; width: fit-content;">
-            <h2 style="color: red;">Team comprised of:</h2>
-            <ul id="devs">
-              <li><span id="bestGirl">Amy <span id="bestGirlLN">Clarkson</span></span> (Lead Screenwriter)</li>
-              <li><span id="allan">Allan <span id="allanLN">Langford</span></span> (Lead Audio)</li>
-              <li><span id="worstBoy">Joey <span id="worstBoyLN">Ladino</span></span> (Lead Developer)</li>
-              <li><span id="sophie">Sophie <span id="sophieLN">Anderson</span></span> (Lead Character Design)</li>
-              <li><span id="dani">Daniella <span id="daniLN">Popejoy</span></span> (Lead Background Design)</li>
-              <!--<li><span id="callum">Callum <span id="callumLN">Gamble</span></span> (Assistant Screenwriter)</li>-->
-            </ul>
-        </div>
+        </span>
+        <br />
+        <br />
+          <p id="aboutUs">
+            We're a small group of friends who decided to pull our unique skillsets together as a game studio. Some of us are interested for fun. Others want to grind xp. Either way we're learning more about this as we go.
+            <br />
+            Enjoy!
+          </p>
+          <br />
+          <h2 id="teamPlayers">Team comprised of:</h2>
+          <ul id="devs">
+            <li><span id="bestGirl">Amy <span id="bestGirlLN">Clarkson</span></span> (Lead Screenwriter)</li>
+            <li><span id="allan">Allan <span id="allanLN">Langford</span></span> (Lead Audio)</li>
+            <li><span id="worstBoy">Joey <span id="worstBoyLN">Ladino</span></span> (Lead Developer)</li>
+            <li><span id="sophie">Sophie <span id="sophieLN">Anderson</span></span> (Lead Character Design)</li>
+            <li><span id="dani">Daniella <span id="daniLN">Popejoy</span></span> (Lead Background Design)</li>
+            <!--<li><span id="callum">Callum <span id="callumLN">Gamble</span></span> (Assistant Screenwriter)</li>-->
+          </ul>
+          <!--<span id="tapSomeone">(Tap a person for their bio)</span>
+          <span id="clickSomeone">(Click a person for their bio)</span>-->
+          <br />
+      </div>
     </center>
   </body>
 </html>
