@@ -144,7 +144,7 @@ window.onload = function() {
     engine.start();
   }, {once:true});
 
-  display.tile_sheet.image.src = "./maps/desert3noslants.png";
+  display.tile_sheet.image.src = "./maps/desert3.png";
 
   // Audio Stuff
 
