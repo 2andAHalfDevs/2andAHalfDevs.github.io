@@ -116,12 +116,12 @@ Game.World.Collider = function() {
                if (this.collidePlatformLeft (object, tile_x            )) return;
                if (this.collidePlatformRight(object, tile_x + tile_size)) return;
                this.collidePlatformBottom   (object, tile_y + tile_size); break;
-               
+
       // My own nonstructured/tutorial-induced/pirated code (made from scratch, not guaranteed to work)
-    
+
       case 16: this.collideLeftSlanted (object, tile_x, tile_y, tile_size); break;
       case 17: this.collideRightSlanted(object, tile_x, tile_y, tile_size); break;
-    
+
     }
   }
 };
