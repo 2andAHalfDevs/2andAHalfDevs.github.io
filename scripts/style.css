@@ -195,3 +195,10 @@ center {
   max-width: 40%;
   font-size: larger;
 }
+
+#certificate {
+  position: relative;
+  bottom: 140px;
+  float: right;
+  right: 20px;
+}

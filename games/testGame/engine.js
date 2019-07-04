@@ -1,7 +1,7 @@
 const Engine = function(fps, update, render) {
   this.time_passed = 0;
   this.afr = undefined;
-  this.current_time = undefined;
+  this.current_time = 0;
   this.fps = fps;
   this.updated = false;
   this.update = update;
@@ -30,7 +30,7 @@ const Engine = function(fps, update, render) {
   };
 
   this.handleRun = (fps) => { this.run(fps); };
-}
+};
 
 Engine.prototype = {
   constructor:Engine,

@@ -1,3 +1,4 @@
+
 window.onload = function() {
 
   const AssetsManager = function() {
