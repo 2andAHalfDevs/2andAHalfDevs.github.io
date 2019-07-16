@@ -21,16 +21,25 @@
         align-content:center;
         align-items:space-around;
         background-color:#202830;
-        display:grid;
+        display: grid;
         justify-items:center;
         height:100%;
         width:100%;
       }
       
       canvas { image-rendering:pixelated; }
+      
+      #oput {
+        position: fixed;
+        background-color: black;
+        text-align: center;
+        color: white;
+        margin: 0 auto;
+      }
     </style>
   </head>
   <body>
+    <h2 id="oput"></h2>
     <canvas></canvas>
     <audio id="mplayer"></audio>
   </body>

@@ -24,29 +24,26 @@
 
     this.render = () => {
       let context = document.querySelector("canvas").getContext("2d"); this.context = context;
-      context.canvas.height = this.canvasheight;
-      context.canvas.width = this.canvaswidth;
-      this.buffer.drawImage(this.bg, 0, 0, this.dim[0], this.dim[1], 0, 0, this.dim[0], this.dim[1]);
-
-      g.player.draw();
-      context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
-    };
-
-    this.drawMe = function(x, y, size) {
-      this.buffer.drawImage(this.chr, 0, 0, 25, 25, x, y, size, size);
+      this.context = context;
+      this.context.canvas.height = this.canvasheight;
+      this.context.canvas.width = this.canvaswidth;
+      
+      this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
     };
 
     // Don't yell at me, but this is the only code I kinda pirated
 
     this.resize = function(width, height, height_width_ratio) {
-    if (height / width > height_width_ratio) {
-      this.canvasheight = width * height_width_ratio;
-      this.canvaswidth = width;
-    } else {
-      this.canvasheight = height;
-      this.canvaswidth = height / height_width_ratio;
-    }
-  };
+      if (height / width > height_width_ratio) {
+        this.canvasheight = width * height_width_ratio;
+        this.canvaswidth = width;
+      } else {
+        this.canvasheight = height;
+        this.canvaswidth = height / height_width_ratio;
+      }
+      var twidth = Math.round(d.canvaswidth / l.map_width*1.75);
+      g.oput.setAttribute("style", "width: "+twidth+"px; left: "+((0.5*(document.documentElement.clientWidth))-twidth*0.5)+"px; font-size: "+twidth/2.75+"px;");
+    };
 
   }
 
@@ -71,13 +68,50 @@
       window.cancelAnimationFrame(this.afr);
     }
   };
-  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+  
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Game Class~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+  
   function Game() {
+    
+    this.gravity = 0.82;
+    this.friction = 0.87;
+    
     this.player = new Game.Player();
     this.maxH = d.buffer.canvas.height;
     this.maxW = d.buffer.canvas.width;
+    this.oput = document.getElementById("oput");
+    
+    this.collide = function(object = this.player, tilexy = this.player.tilexy) {
+      
+      // World Boundaries
+      if(object.x < 0) object.x = 0;
+      else if(object.x > g.maxW - object.size) object.x = g.maxW - object.size;
+      if(object.y <= 0) {object.y = 0; object.vel_y = 0;}
+      else if(object.y > g.maxH - object.size) {object.y = g.maxH - object.size; object.vel_y = 0; object.jumping = false;}
+      
+      this.cmap = l.collisions;
+      var tleft = tilexy[0] * l.tile_size, tright = (tilexy[0] * l.tile_size) + l.tile_size, ttop = tilexy[1] * l.tile_size, tbtm = (tilexy[1] * l.tile_size) + l.tile_size;
+      
+  var pleft = object.x,
+      pright = object.x + object.size,
+      ptop = object.y,
+      pbtm = object.y + object.size;
+  
+      var cmap = this.cmap, value = this.cmap[tilexy[1] * l.map_width + tilexy[0]] - 1;
+      switch(value) {
+        case 1: collideTop(); break;
+      }
+      
+      function collideTop() {
+        if(pbtm > ttop && object.old_y + object.size <= ttop) {
+          object.y = ttop - object.size;
+          object.vel_y = 0;
+          object.jumping = false;
+        }
+      }
+    };
   }
 
   Game.prototype = {
@@ -87,38 +121,42 @@
     },
 
     update: function() {
+      d.buffer.drawImage(d.bg, 0, 0, d.dim[0], d.dim[1], 0, 0, d.dim[0], d.dim[1]);
+      
       this.player.move();
-      this.player.draw();
+      
+      this.collide();
+      
+      animate(this.player, this.player.delay);
+      this.oput.innerHTML = this.player.tilexy.join(" ");
+      
       d.render();
-    }
+    },
   };
+  
+  
   Game.Player = function() {
-
-    this.draw = function() {
-      d.drawMe(this.x, this.y, this.size);
-    };
-
     this.move = function() {
-      var gravity = this.gravity;
-      var friction = this.friction;
+      
+      this.tilexy = [(Math.floor((this.x+(0.5*this.size))/l.tile_size)), (Math.ceil((this.y+(0.5*this.size))/l.tile_size))];
+      
       if(k.left.keydown) this.vel_x -= (this.step * this.hspeed);
       if(k.right.keydown) this.vel_x += (this.step * this.hspeed);
       if(k.up.keydown && !this.jumping) {this.vel_y -= 14; this.jumping = true;}
+      if(k.down.keydown && !this.jumping) {this.ducking = true} else {this.ducking = false}
+      
 
       this.old_x = this.x;
       this.old_y = this.y;
-      if(this.old_x !== this.x + Math.round(this.vel_x)) this.vel_x *= friction;
-      this.vel_y += gravity;
-      this.x += Math.round(this.vel_x * friction);
+      if(this.old_x !== this.x + Math.round(this.vel_x)) this.vel_x *= g.friction;
+      this.vel_y += g.gravity;
+      this.x += Math.round(this.vel_x * g.friction);
       this.y += Math.round(this.vel_y);
 
-      this.direction = (this.x - this.old_x === 0) ? 1 : this.x - this.old_x;
+      if(this.x - this.old_x !== 0) this.direction = (this.x - this.old_x) >= 1 ? 1 : -1;
 
-      if(this.x <= 0 - this.size + 5) this.x = g.maxW + 5;
-      else if(this.x >= g.maxW + 5) this.x = 0 - 5;
-      if(this.y <= 0) {this.y = 0; this.vel_y = 0;}
-      else if(this.y >= g.maxH - this.size) {this.y = g.maxH - this.size-1; this.vel_y = 0; this.jumping = false;}
-      Animate(this);
+      this.delay = (this.hspeed != 1) ? 10+(10*this.hspeed) : 10;
+      
     };
   };
 
@@ -128,39 +166,35 @@
 
   Game.Characters.prototype = {
     constructor: Game.Player,
-    x: 0,
-    y: 0,
-    old_x: 0,
-    old_y: 0,
-    vel_x: 0,
-    vel_y: 0,
+    x: 0, y: 0, old_x: 0, old_y: 0, vel_x: 0, vel_y: 2, tile: [0, 0],
     direction: 1,
-    size: 50,
+    size: 24,
     hspeed: 1,
     jumping: false,
     can_jump: true,
     step: 1,
-    gravity: 0.82,
-    friction: 0.87,
-    frames: {}
+    frames: {},
+    pframe: 0, cframe: 0, fcount: 0,
+    fset: null, mframe: null,
   };
 
   Game.Player.prototype = Game.Characters.prototype;
 
   Game.Player.prototype.frames = {
     src: "./djt.png",
-    size: [16, 16],
+    size: [25, 25],
     stand_right: [0],
     stand_left: [3],
     move_right: [0, 1],
     move_left: [3, 2],
-    duck_right: [4],
-    duck_left: [5],
+    duck_right: [5],
+    duck_left: [4],
   };
 
-  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Input Manager~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+  
   function Ctrl() {
     this.up = new Ctrl.InputSwitch();
     this.down = new Ctrl.InputSwitch();
@@ -209,7 +243,10 @@
     }
   };
 
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Gamepad Stuff~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+  
   var gayfr = "set me";
   var foundControllers = "ongamepadconnect" in window;
   var controllers = [];
@@ -308,16 +345,49 @@
     k.refresh(e.keyCode, e.type);
   }
 
-  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Animator~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
-  function Animate(object = g.player) {
-
+  
+  function animate(object = g.player, delay = 10) {
+    var prevFramset = object.pframe,
+    curFrame = object.cframe,
+    fcount = object.fcount,
+    frameset = object.fset,
+    myframe = object.mframe,
+    frames = object.frames,
+    dir = object.direction;
+    
+    if(dir > 0) {
+      
+      if(object.ducking) {frameset = frames.duck_right}
+      else if(Math.round(object.vel_x) > 0) {frameset = frames.move_right;}
+      else {frameset = frames.stand_right;}
+      
+    } else {
+      
+      if(object.ducking) {frameset = frames.duck_left}
+      else if(Math.round(object.vel_x) < 0) {frameset = frames.move_left;}
+      else {frameset = frames.stand_left;}
+      
+    }
+    
+    if(prevFramset !== frameset) {prevFramset = frameset; curFrame = 0; myframe = frameset[0]; fcount = 0;}
+    else if(fcount > delay) {
+      if(curFrame == frameset.length - 1) curFrame = 0;
+      else curFrame++;
+      fcount = 0;
+      myframe = frameset[curFrame];
+    }
+      
+    fcount++;
+    object.pframe = prevFramset; object.cframe = curFrame; object.fcount = fcount; object.fset = frameset; object.mframe = myframe;
+    d.buffer.drawImage(d.chr, myframe * frames.size[0], 0, frames.size[0], frames.size[1], object.x, object.y, object.size, object.size);
+    
   }
 
-  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+  
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Activation~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
   // Yeah yeah, I know, letters aren't good variable names, too bad
