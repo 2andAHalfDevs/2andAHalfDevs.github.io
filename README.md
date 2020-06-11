@@ -1,8 +1,3 @@
-# Thank you Frank Poth
-  The example code belongs to [Frank Poth](https://github.com/frankarendpoth/frankarendpoth.github.io).
-I'm learning as I go but for right now a lot of my code (i.e. collision boxes) are heavily based off his tutorials/source code (for now).
-His PoP youtube videos and in-code comments are amazing, definitely give him a look.
-
 ## Quick annoncement
   I'm rewriting the code from scratch so I can have a better understanding of everything, this way I'm learning more and not pirating all of Frank's code. Updates have been slow because of this and a couple other projects I've started (one that'll be tied into this game a little later on in the development process)
   
